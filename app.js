@@ -133,3 +133,6 @@ server.listen(PORT, () => {
   --------------------------------
   `);
 });
+
+// export Express API
+module.exports = app;
