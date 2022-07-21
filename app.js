@@ -53,12 +53,10 @@ app.use("/uploads", express.static(`${__dirname}/uploads`));
 // cors settings
 app.use(
   cors({
-    origin: process.env.FRONT_URL,
+    origin: false,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
-    contentType: "application/json; charset=utf-8",
-    httpOnly: true,
   })
 );
 
