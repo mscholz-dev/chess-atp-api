@@ -51,13 +51,13 @@ app.use(cookieParser());
 app.use("/uploads", express.static(`${__dirname}/uploads`));
 
 // cors settings
-app.use(
-  cors({
-    origin: process.env.FRONT_URL,
-    credentials: true,
-    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.FRONT_URL,
+//     credentials: true,
+//     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+//   })
+// );
 
 // app.use((req, res, next) => {
 //   console.log(req.rawHeaders);
