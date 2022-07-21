@@ -13,7 +13,6 @@ const cookieParsing = (data) => cookie.parse(data);
 const cookieSettings = {
   expires: new Date(moment().add(7, "days")),
   path: "/",
-  domain: process.env.FRONT_URL,
   sameSite: "strict",
   secure: true,
   httpOnly: true,
