@@ -56,8 +56,16 @@ app.use(
     origin: process.env.FRONT_URL,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
+    contentType: "application/json; charset=utf-8",
+    httpOnly: true,
   })
 );
+
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 
 // disable trash header
 app.disable("x-powered-by");
