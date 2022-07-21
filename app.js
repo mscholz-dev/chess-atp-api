@@ -118,7 +118,7 @@ io.on("connection", connectionSocket);
 // api routes
 app.use("/api", routes);
 
-app.get("/", () => console.log("HOME PAGE"));
+app.get("/", (req, res) => res.send("hello express js"));
 
 // server listener
 server.listen(PORT, () => {
