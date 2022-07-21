@@ -5,3 +5,5 @@ Ensuite, créer un fichier .env identique au .env.example en y ajoutant les vari
 Puis faites un npm i
 
 Il ne reste plus qu'a faire un npm run dev
+
+1
