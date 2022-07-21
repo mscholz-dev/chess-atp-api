@@ -118,6 +118,8 @@ io.on("connection", connectionSocket);
 // api routes
 app.use("/api", routes);
 
+app.get("/", () => console.log("HOME PAGE"));
+
 // server listener
 server.listen(PORT, () => {
   console.log(`
