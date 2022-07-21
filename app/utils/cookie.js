@@ -11,8 +11,9 @@ const jwtDecoded = (data) => jwt.verify(data, process.env.JWT_SECRET, (err, deco
 const cookieParsing = (data) => cookie.parse(data);
 
 const cookieSettings = {
-  maxAge: new Date(moment().add(7, "days")),
+  expires: new Date(moment().add(7, "days")),
   path: "/",
+  domain: process.env.FRONT_URL,
   sameSite: "strict",
   secure: true,
   httpOnly: true,
