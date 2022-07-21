@@ -14,7 +14,7 @@ const cookieSettings = {
   maxAge: new Date(moment().add(7, "days")),
   path: "/",
   sameSite: "strict",
-  secure: false,
+  secure: true,
   httpOnly: true,
 };
 
