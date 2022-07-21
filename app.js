@@ -32,11 +32,11 @@ const server = http.createServer(app);
 
 // create socket.io server
 const io = socketIo(server, {
-  cors: {
-    origin: process.env.FRONT_URL,
-    method: ["GET", "POST"],
-    credentials: true,
-  },
+  // cors: {
+  //   origin: process.env.FRONT_URL,
+  //   method: ["GET", "POST"],
+  //   credentials: true,
+  // },
 });
 
 // connection to mysql
