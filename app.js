@@ -36,6 +36,7 @@ const io = socketIo(server, {
     origin: process.env.FRONT_URL,
     method: ["GET", "POST"],
     credentials: true,
+    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
   },
 });
 
