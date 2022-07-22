@@ -31,14 +31,14 @@ const app = express();
 const server = http.createServer(app);
 
 // create socket.io server
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.FRONT_URL,
-    method: ["GET", "POST"],
-    credentials: true,
-    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
-  },
-});
+// const io = socketIo(server, {
+//   cors: {
+//     origin: process.env.FRONT_URL,
+//     method: ["GET", "POST"],
+//     credentials: true,
+//     allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
+//   },
+// });
 
 // connection to mysql
 connection.connect();
@@ -82,39 +82,39 @@ app.use((req, res, next) => {
 
 // app.use(csurf({ cookie: true }));
 
-const connectionSocket = (socket) => {
-  // socket.io auth middleware
-  socket.use((e, next) => authSocket(socket, next));
+// const connectionSocket = (socket) => {
+//   // socket.io auth middleware
+//   socket.use((e, next) => authSocket(socket, next));
 
-  // search a game event
-  socket.on("game:search", () => searchGameController(socket, io));
+//   // search a game event
+//   socket.on("game:search", () => searchGameController(socket, io));
 
-  // when a player move a piece
-  socket.on("game:moving", (arg) => movingGameController(socket, arg));
+//   // when a player move a piece
+//   socket.on("game:moving", (arg) => movingGameController(socket, arg));
 
-  //when a player do a castle
-  socket.on("game:castling", (arg) => castlingGameController(socket, arg));
+//   //when a player do a castle
+//   socket.on("game:castling", (arg) => castlingGameController(socket, arg));
 
-  // delete finished room
-  socket.on("game:finishing", (arg) => finishingGameController(socket, io, arg));
+//   // delete finished room
+//   socket.on("game:finishing", (arg) => finishingGameController(socket, io, arg));
 
-  // when socket disconnecting
-  socket.on("disconnecting", () => disconnectingController(socket));
+//   // when socket disconnecting
+//   socket.on("disconnecting", () => disconnectingController(socket));
 
-  // when socket disconnecting, update timers
-  socket.on("game:update", (arg) => updateGameController(socket, arg));
+//   // when socket disconnecting, update timers
+//   socket.on("game:update", (arg) => updateGameController(socket, arg));
 
-  // try reconnecting player
-  socket.on("game:reconnecting", () => reconnectingGameController(socket));
+//   // try reconnecting player
+//   socket.on("game:reconnecting", () => reconnectingGameController(socket));
 
-  // socket cancel searching event
-  socket.on("game:cancelSearching", () => cancelSearchingGameController(socket, io));
+//   // socket cancel searching event
+//   socket.on("game:cancelSearching", () => cancelSearchingGameController(socket, io));
 
-  socket.on("game:requestEquality", () => requestEqualityGameController(socket));
-};
+//   socket.on("game:requestEquality", () => requestEqualityGameController(socket));
+// };
 
 // socket.io listener middleware
-io.on("connection", connectionSocket);
+// io.on("connection", connectionSocket);
 
 // api routes
 app.use("/api", routes);
