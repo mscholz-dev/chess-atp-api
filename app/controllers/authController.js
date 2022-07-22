@@ -10,17 +10,16 @@ const { emailRegex } = require("../utils/mail");
 const path = require("path");
 const exifTransformer = require("exif-be-gone");
 const { removeAvatar } = require("../utils/img");
-const moment = require("moment");
-const { jwtSecure, jwtDecoded, cookieSettings } = require("../utils/cookie");
+const { jwtSecure, jwtDecoded } = require("../utils/cookie");
 
 class AuthController {
   async index(req, res) {
     try {
       // update cookie data
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
       connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [cookieData.id], (err, rows) => {
         if (err) throw err;
-        if (!rows.length) return res.clearCookie("user").json({ state: false });
+        if (!rows.length) return; // TODO destroy session
 
         const jwtData = jwtSecure({
           id: rows[0].id,
@@ -31,7 +30,11 @@ class AuthController {
           language: rows[0].language,
         });
 
-        res.cookie("user", jwtData, cookieSettings).json({ state: true, role: rows[0].role, language: rows[0].language });
+        // update session cookie
+        req.session = jwtData;
+
+        // response
+        res.json({ state: true, role: rows[0].role, language: rows[0].language });
       });
     } catch (err) {
       throw err;
@@ -131,8 +134,11 @@ class AuthController {
               language: rows[0].language,
             });
 
-            // create a server side secure cookie to the user
-            res.cookie("user", jwtData, cookieSettings).json({ state: true });
+            // update session cookie
+            req.session = jwtData;
+
+            // response
+            res.json({ state: true });
           });
 
           // send a register email to the user
@@ -219,8 +225,11 @@ class AuthController {
               language: rows[0].language,
             });
 
-            // create a server side secure cookie to the user
-            res.cookie("user", jwtData, cookieSettings).json({ state: true });
+            // update session cookie
+            req.session = jwtData;
+
+            // response
+            res.json({ state: true });
           } else {
             res.json({ state: false, description: "invalid password" });
           }

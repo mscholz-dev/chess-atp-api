@@ -1,22 +1,20 @@
-const { jwtVerify, jwtDecoded, jwtSecure, cookieSettings } = require("../utils/cookie");
+const { jwtVerify, jwtDecoded, jwtSecure } = require("../utils/cookie");
 const { connection } = require("../utils/connection");
 const { currentDatetime } = require("../utils/date");
 
 const auth = async (req, res, next) => {
   try {
-    const userCookie = req.cookies.user;
-    console.log(req.session);
+    const userCookie = req.session.user;
 
     // if cookie invalid
-    if (!jwtVerify(userCookie)) return res.clearCookie("user").json({ state: false });
+    if (!jwtVerify(userCookie)) return (req.session.user = {});
 
     // verify existence and update updated_at
     const { id } = jwtDecoded(userCookie);
 
     connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [id], (err, rows) => {
       if (err) throw err;
-      if (!rows.length) return res.clearCookie("user").json({ state: false });
-
+      if (!rows.length) return (req.session.user = {});
       const jwtData = jwtSecure({
         id: rows[0].id,
         avatar: rows[0].avatar,
@@ -26,7 +24,8 @@ const auth = async (req, res, next) => {
         language: rows[0].language,
       });
 
-      res.cookie("user", jwtData, cookieSettings);
+      // update session cookie
+      req.session = jwtData;
 
       connection.query("UPDATE user SET updated_at = ? WHERE id = ?", [currentDatetime(), id], (err) => {
         if (err) throw err;

@@ -1,13 +1,13 @@
-const { jwtVerify, jwtDecoded, jwtSecure, cookieSettings } = require("../utils/cookie");
+const { jwtVerify, jwtDecoded, jwtSecure } = require("../utils/cookie");
 const { connection } = require("../utils/connection");
 const { currentDatetime } = require("../utils/date");
 
 const admin = async (req, res, next) => {
   try {
-    const userCookie = req.cookies.user;
+    const userCookie = req.session.user;
 
     // if cookie invalid
-    if (!jwtVerify(userCookie)) return res.clearCookie("user").json({ state: false });
+    if (!jwtVerify(userCookie)) return (req.session.user = {});
 
     // if not an admin
     const { id, role } = jwtDecoded(userCookie);
@@ -15,7 +15,7 @@ const admin = async (req, res, next) => {
 
     connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [id], (err, rows) => {
       if (err) throw err;
-      if (!rows.length) return res.clearCookie("user").json({ state: false });
+      if (!rows.length) return (req.session.user = {});
 
       const jwtData = jwtSecure({
         id: rows[0].id,
@@ -26,7 +26,8 @@ const admin = async (req, res, next) => {
         language: rows[0].language,
       });
 
-      res.cookie("user", jwtData, cookieSettings);
+      // update session cookie
+      req.session = jwtData;
 
       // update updated_at
       connection.query("UPDATE user SET updated_at = ? WHERE id = ?", [currentDatetime(), id], (err) => {

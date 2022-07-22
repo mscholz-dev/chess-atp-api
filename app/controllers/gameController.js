@@ -1,16 +1,15 @@
-const { jwtDecoded, jwtSecure, cookieSettings } = require("../utils/cookie");
+const { jwtDecoded, jwtSecure } = require("../utils/cookie");
 const { connection } = require("../utils/connection");
 const xss = require("xss");
-const moment = require("moment");
 
 class GameController {
   async index(req, res) {
     try {
       // update cookie data
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
       connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [cookieData.id], (err, rows) => {
         if (err) throw err;
-        if (!rows.length) return res.clearCookie("user").json({ state: false });
+        if (!rows.length) return; // TODO destroy session
 
         const jwtData = jwtSecure({
           id: rows[0].id,
@@ -21,7 +20,11 @@ class GameController {
           language: rows[0].language,
         });
 
-        res.cookie("user", jwtData, cookieSettings).json({ state: true, data: cookieData, role: rows[0].role });
+        // update session cookie
+        req.session = jwtData;
+
+        // response
+        res.json({ state: true, data: cookieData, role: rows[0].role });
       });
     } catch (err) {
       throw err;
@@ -30,7 +33,7 @@ class GameController {
 
   async enemy(req, res) {
     try {
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
 
       connection.query("SELECT player_one_id, player_two_id FROM game WHERE player_one_id = ? OR player_two_id = ? ORDER BY id DESC LIMIT 1", [cookieData.id, cookieData.id], (err, rows) => {
         if (err) throw err;
@@ -60,7 +63,7 @@ class GameController {
 
   async history(req, res) {
     try {
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
       const cookieId = cookieData.id;
       const searchParam = xss(req.body.search);
 

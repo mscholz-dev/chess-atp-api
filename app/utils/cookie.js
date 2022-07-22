@@ -9,18 +9,9 @@ const jwtDecoded = (data) => jwt.verify(data, process.env.JWT_SECRET, (err, deco
 
 const cookieParsing = (data) => cookie.parse(data);
 
-const cookieSettings = {
-  expires: 60 * 60 * 24,
-  path: "/",
-  sameSite: "strict",
-  secure: true,
-  httpOnly: true,
-};
-
 module.exports = {
   jwtSecure,
   jwtVerify,
   cookieParsing,
   jwtDecoded,
-  cookieSettings,
 };

@@ -1,4 +1,4 @@
-const { jwtDecoded, jwtSecure, cookieSettings } = require("../utils/cookie");
+const { jwtDecoded, jwtSecure } = require("../utils/cookie");
 const xss = require("xss");
 const { connection } = require("../utils/connection");
 const { currentDatetime } = require("../utils/date");
@@ -10,7 +10,6 @@ const fs = require("fs");
 const { sendEmail, subjects } = require("../utils/mail");
 const exifTransformer = require("exif-be-gone");
 const path = require("path");
-const moment = require("moment");
 
 class ProfileController {
   async index(req, res) {
@@ -29,7 +28,7 @@ class ProfileController {
 
   async username(req, res) {
     try {
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
       res.json({ state: true, username: cookieData.username });
     } catch (err) {
       throw err;
@@ -68,14 +67,14 @@ class ProfileController {
     try {
       // username data and cookie data
       const usernameData = xss(req.body.username);
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
 
       // is it the same user than the cookie user
       if (usernameData !== cookieData.username) return res.json({ state: false });
 
       connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [cookieData.id], (err, rows) => {
         if (err) throw err;
-        if (!rows.length) return res.clearCookie("user").json({ state: false });
+        if (!rows.length) return (req.session.user = {});
 
         const jwtData = jwtSecure({
           id: rows[0].id,
@@ -86,7 +85,11 @@ class ProfileController {
           language: rows[0].language,
         });
 
-        res.cookie("user", jwtData, cookieSettings).json({
+        // update session cookie
+        req.session = jwtData;
+
+        // response
+        res.json({
           state: true,
           role: rows[0].role,
           data: {
@@ -104,7 +107,7 @@ class ProfileController {
 
   async update(req, res) {
     try {
-      const cookieData = jwtDecoded(req.cookies.user);
+      const cookieData = jwtDecoded(req.session.user);
 
       // verify user
       connection.query("SELECT id FROM user WHERE username = ? AND email = ?", [cookieData.username, cookieData.email], (err, rows) => {
@@ -183,8 +186,11 @@ class ProfileController {
                 language: language,
               });
 
-              // create a server side secure cookie to the user
-              res.cookie("user", jwtData, cookieSettings).json({ state: true });
+              // update session cookie
+              req.session = jwtData;
+
+              // response
+              res.json({ state: true });
             });
 
             // request to know if it is a new IP address
