@@ -5,6 +5,8 @@ const PORT = process.env.PORT;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // const csurf = require("csurf");
+const session = require("express-session");
+const logger = require("morgan");
 
 // express imports
 const express = require("express");
@@ -42,6 +44,19 @@ const io = socketIo(server, {
 
 // connection to mysql
 connection.connect();
+
+// dev logger
+app.use(logger("dev"));
+
+// session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: true,
+    unset: "destroy",
+  })
+);
 
 // utils express middlewares
 app.use(express.urlencoded({ extended: true }));
