@@ -74,7 +74,12 @@ class ProfileController {
 
       connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [cookieData.id], (err, rows) => {
         if (err) throw err;
-        if (!rows.length) return (req.session.user = {});
+        if (!rows.length) {
+          req.session.destroy();
+          res.clearCookie("connect.sid");
+          res.json({ state: false });
+          return;
+        }
 
         const jwtData = jwtSecure({
           id: rows[0].id,
@@ -86,7 +91,7 @@ class ProfileController {
         });
 
         // update session cookie
-        req.session = jwtData;
+        req.session.user = jwtData;
 
         // response
         res.json({
@@ -187,7 +192,7 @@ class ProfileController {
               });
 
               // update session cookie
-              req.session = jwtData;
+              req.session.user = jwtData;
 
               // response
               res.json({ state: true });

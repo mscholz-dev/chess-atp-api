@@ -21,7 +21,7 @@ class GameController {
         });
 
         // update session cookie
-        req.session = jwtData;
+        req.session.user = jwtData;
 
         // response
         res.json({ state: true, data: cookieData, role: rows[0].role });

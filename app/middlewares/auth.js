@@ -6,15 +6,28 @@ const auth = async (req, res, next) => {
   try {
     const userCookie = req.session.user;
 
+    console.log("HERE -> ", req.session);
+
     // if cookie invalid
-    if (!jwtVerify(userCookie)) return (req.session.user = {});
+    if (!jwtVerify(userCookie)) {
+      req.session.destroy();
+      res.clearCookie("connect.sid");
+      res.json({ state: false });
+      return;
+    }
 
     // verify existence and update updated_at
     const { id } = jwtDecoded(userCookie);
 
     connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE id = ?", [id], (err, rows) => {
       if (err) throw err;
-      if (!rows.length) return (req.session.user = {});
+      if (!rows.length) {
+        req.session.destroy();
+        res.clearCookie("connect.sid");
+        res.json({ state: false });
+        return;
+      }
+
       const jwtData = jwtSecure({
         id: rows[0].id,
         avatar: rows[0].avatar,
@@ -25,7 +38,7 @@ const auth = async (req, res, next) => {
       });
 
       // update session cookie
-      req.session = jwtData;
+      req.session.user = jwtData;
 
       connection.query("UPDATE user SET updated_at = ? WHERE id = ?", [currentDatetime(), id], (err) => {
         if (err) throw err;

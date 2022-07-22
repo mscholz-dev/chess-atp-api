@@ -54,7 +54,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
-    resave: false,
+    resave: true,
     unset: "destroy",
     cookie: { maxAge: 60 * 60 * 24 },
     store: new FileStore({
