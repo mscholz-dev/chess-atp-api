@@ -13,7 +13,7 @@ const cookieParsing = (data) => cookie.parse(data);
 const cookieSettings = {
   maxAge: new Date(moment().add(7, "days")),
   path: "/",
-  sameSite: "strict",
+  sameSite: "none",
   secure: false,
   httpOnly: true,
 };

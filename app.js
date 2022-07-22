@@ -32,11 +32,11 @@ const server = http.createServer(app);
 
 // create socket.io server
 const io = socketIo(server, {
-  // cors: {
-  //   origin: process.env.FRONT_URL,
-  //   method: ["GET", "POST"],
-  //   credentials: true,
-  // },
+  cors: {
+    origin: process.env.FRONT_URL,
+    method: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 // connection to mysql
@@ -51,19 +51,19 @@ app.use(cookieParser());
 app.use("/uploads", express.static(`${__dirname}/uploads`));
 
 // cors settings
-// app.use(
-//   cors({
-//     origin: process.env.FRONT_URL,
-//     credentials: true,
-//     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-//     allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
-//   })
-// );
+app.use(
+  cors({
+    origin: process.env.FRONT_URL,
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
+  })
+);
 
-// app.use((req, res, next) => {
-//   res.set("Cache-Control", "no-store");
-//   next();
-// });
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 
 // disable trash header
 app.disable("x-powered-by");
