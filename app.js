@@ -7,6 +7,7 @@ const cors = require("cors");
 // const csurf = require("csurf");
 const session = require("express-session");
 const logger = require("morgan");
+const FileStore = require("session-file-store")(session);
 
 // express imports
 const express = require("express");
@@ -53,8 +54,15 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
-    resave: true,
+    resave: false,
     unset: "destroy",
+    cookie: { maxAge: 60 * 60 * 24 },
+    store: new FileStore({
+      path: "tmp/sessions/",
+      useAsync: true,
+      reapInterval: 5000,
+      maxAge: 60 * 60 * 24,
+    }),
   })
 );
 
@@ -133,8 +141,6 @@ io.on("connection", connectionSocket);
 
 // api routes
 app.use("/api", routes);
-
-app.get("/", (req, res) => res.send("hello express js"));
 
 // server listener
 server.listen(PORT, () => {
