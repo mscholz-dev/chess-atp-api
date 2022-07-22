@@ -5,7 +5,6 @@ const { currentDatetime } = require("../utils/date");
 const auth = async (req, res, next) => {
   try {
     const userCookie = req.cookies.user;
-    console.log(req.session);
 
     // if cookie invalid
     if (!jwtVerify(userCookie)) return res.clearCookie("user").json({ state: false });

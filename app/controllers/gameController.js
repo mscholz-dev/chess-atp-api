@@ -1,7 +1,6 @@
 const { jwtDecoded, jwtSecure, cookieSettings } = require("../utils/cookie");
 const { connection } = require("../utils/connection");
 const xss = require("xss");
-const moment = require("moment");
 
 class GameController {
   async index(req, res) {

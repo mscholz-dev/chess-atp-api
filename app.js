@@ -5,9 +5,9 @@ const PORT = process.env.PORT;
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // const csurf = require("csurf");
-const session = require("express-session");
+// const session = require("express-session");
 const logger = require("morgan");
-const FileStore = require("session-file-store")(session);
+// const FileStore = require("session-file-store")(session);
 
 // express imports
 const express = require("express");
@@ -50,21 +50,21 @@ connection.connect();
 app.use(logger("dev"));
 
 // session middleware
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    resave: false,
-    unset: "destroy",
-    cookie: { maxAge: 60 * 60 * 24 },
-    store: new FileStore({
-      path: "tmp/sessions/",
-      useAsync: true,
-      reapInterval: 5000,
-      maxAge: 60 * 60 * 24,
-    }),
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     saveUninitialized: true,
+//     resave: false,
+//     unset: "destroy",
+//     cookie: { maxAge: 60 * 60 * 24 },
+//     store: new FileStore({
+//       path: "tmp/sessions/",
+//       useAsync: true,
+//       reapInterval: 5000,
+//       maxAge: 60 * 60 * 24,
+//     }),
+//   })
+// );
 
 // utils express middlewares
 app.use(express.urlencoded({ extended: true }));

@@ -10,7 +10,6 @@ const { emailRegex } = require("../utils/mail");
 const path = require("path");
 const exifTransformer = require("exif-be-gone");
 const { removeAvatar } = require("../utils/img");
-const moment = require("moment");
 const { jwtSecure, jwtDecoded, cookieSettings } = require("../utils/cookie");
 
 class AuthController {

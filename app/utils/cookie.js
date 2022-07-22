@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
+const moment = require("moment");
 
 const jwtSecure = (data) => jwt.sign(data, process.env.JWT_SECRET, { mutatePayload: true });
 
@@ -10,7 +11,7 @@ const jwtDecoded = (data) => jwt.verify(data, process.env.JWT_SECRET, (err, deco
 const cookieParsing = (data) => cookie.parse(data);
 
 const cookieSettings = {
-  expires: 60 * 60 * 24,
+  // expires: new Date(moment(7, "days")),
   path: "/",
   sameSite: "strict",
   secure: true,

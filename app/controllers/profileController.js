@@ -10,7 +10,6 @@ const fs = require("fs");
 const { sendEmail, subjects } = require("../utils/mail");
 const exifTransformer = require("exif-be-gone");
 const path = require("path");
-const moment = require("moment");
 
 class ProfileController {
   async index(req, res) {
