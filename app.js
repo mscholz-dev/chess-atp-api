@@ -14,7 +14,7 @@ const express = require("express");
 const routes = require("./app/routes")();
 
 // mysql imports
-const { connection } = require("./app/utils/connection");
+// const { connection } = require("./app/utils/connection");
 
 // socket.io imports
 const socketIo = require("socket.io");
@@ -44,13 +44,12 @@ const io = socketIo(server, {
 });
 
 // connection to mysql
-connection.connect();
+// connection.connect();
 
-connection.on("error", (err, rows) => {
-  console.log("MYSQL ERROR => ", err);
-  console.log("MYSQL ROWS => ", rows);
-  connection.connect();
-});
+// connection.on("error", (err) => {
+//   console.log("MYSQL ERROR => ", err);
+//   connection.connect();
+// });
 
 // dev logger
 app.use(logger("dev"));
