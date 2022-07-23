@@ -46,6 +46,12 @@ const io = socketIo(server, {
 // connection to mysql
 connection.connect();
 
+connection.on("error", (err, rows) => {
+  console.log("MYSQL ERROR => ", err);
+  console.log("MYSQL ROWS => ", rows);
+  connection.connect();
+});
+
 // dev logger
 app.use(logger("dev"));
 
