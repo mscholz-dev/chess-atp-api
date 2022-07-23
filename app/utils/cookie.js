@@ -14,7 +14,7 @@ const cookieSettings = {
   // one week
   maxAge: 1000 * 60 * 60 * 24 * 7,
   path: "/",
-  sameSite: "strict",
+  sameSite: "none",
   secure: true,
   httpOnly: true,
 };
