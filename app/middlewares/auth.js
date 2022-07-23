@@ -6,6 +6,9 @@ const auth = async (req, res, next) => {
   try {
     const userCookie = req.cookies.user;
 
+    // no user cookie
+    if (!userCookie) return res.json({ state: false });
+
     // if cookie invalid
     if (!jwtVerify(userCookie)) return res.clearCookie("user").json({ state: false });
 

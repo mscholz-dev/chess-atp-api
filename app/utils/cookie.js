@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
-const moment = require("moment");
 
 const jwtSecure = (data) => jwt.sign(data, process.env.JWT_SECRET, { mutatePayload: true });
 
