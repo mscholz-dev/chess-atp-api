@@ -39,8 +39,6 @@ class AuthController {
 
   async register(req, res) {
     try {
-      console.log(`START REGISTER => ${req.body.email}`);
-
       // secure xss failures
       const language = xss(req.body.language);
       const username = xss(req.body.username);
@@ -111,33 +109,33 @@ class AuthController {
           // request to create the user
           connection.query("INSERT INTO user (avatar, username, email, password, role, language, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)", [avatarName, username, email, hash, "client", language, currentDatetime(), currentDatetime()], (err) => {
             if (err) throw err;
-          });
 
-          // request to have the user id
-          connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE username = ?", [username], (err, rows) => {
-            if (err) throw err;
-
-            console.log(`GET ID => ${(err, rows)}`);
-
-            // request to save the IP address of the user
-            connection.query("INSERT INTO ip_address (user_id, ip_address) VALUES (?, ?)", [rows[0].id, ip.address()], (err) => {
-              console.log(`AFTER GET ID => ${err}`);
-
+            // request to have the user id
+            connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE username = ?", [username], (err, rows) => {
               if (err) throw err;
-            });
 
-            // create a secure jwt
-            const jwtData = jwtSecure({
-              id: rows[0].id,
-              avatar: rows[0].avatar,
-              email: rows[0].email,
-              username: rows[0].username,
-              role: rows[0].role,
-              language: rows[0].language,
-            });
+              console.log(`GET ID => ${(err, rows)}`);
 
-            // create a server side secure cookie to the user
-            res.cookie("user", jwtData, cookieSettings).json({ state: true });
+              // request to save the IP address of the user
+              connection.query("INSERT INTO ip_address (user_id, ip_address) VALUES (?, ?)", [rows[0].id, ip.address()], (err) => {
+                console.log(`AFTER GET ID => ${err}`);
+
+                if (err) throw err;
+              });
+
+              // create a secure jwt
+              const jwtData = jwtSecure({
+                id: rows[0].id,
+                avatar: rows[0].avatar,
+                email: rows[0].email,
+                username: rows[0].username,
+                role: rows[0].role,
+                language: rows[0].language,
+              });
+
+              // create a server side secure cookie to the user
+              res.cookie("user", jwtData, cookieSettings).json({ state: true });
+            });
           });
 
           // send a register email to the user
