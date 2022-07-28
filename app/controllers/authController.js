@@ -39,6 +39,8 @@ class AuthController {
 
   async register(req, res) {
     try {
+      console.log(`START REGISTER => ${req.body.email}`);
+
       // secure xss failures
       const language = xss(req.body.language);
       const username = xss(req.body.username);
