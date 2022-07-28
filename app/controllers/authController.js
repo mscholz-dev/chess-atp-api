@@ -115,6 +115,8 @@ class AuthController {
           connection.query("SELECT id, avatar, email, username, role, language FROM user WHERE username = ?", [username], (err, rows) => {
             if (err) throw err;
 
+            console.log(`GET ID => ${rows}`);
+
             // request to save the IP address of the user
             connection.query("INSERT INTO ip_address (user_id, ip_address) VALUES (?, ?)", [rows[0].id, ip.address()], (err) => {
               if (err) throw err;
