@@ -11,7 +11,7 @@ const cookieParsing = (data) => cookie.parse(data);
 
 const cookieSettings = {
   // one week
-  maxAge: 1000 * 60 * 60 * 24 * 7,
+  // maxAge: 1000 * 60 * 60 * 24 * 7,
   expires: 1000 * 60 * 60 * 24 * 7,
   path: "/",
   sameSite: "none",
