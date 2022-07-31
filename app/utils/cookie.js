@@ -17,7 +17,7 @@ const cookieSettings = {
   sameSite: "none",
   secure: true,
   httpOnly: true,
-  domain: process.env.API_URL,
+  // domain: process.env.API_URL,
 };
 
 module.exports = {
