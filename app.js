@@ -37,9 +37,9 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.FRONT_URL,
-    method: ["GET", "POST"],
+    method: ["GET", "POST", "OPTIONS"],
     credentials: true,
-    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control", "apikey", "apisecret"],
+    allowedHeaders: ["Origin", "Content-Type", "Content-Length", "X-Requested-With", "cache-control"],
   },
 });
 
@@ -85,7 +85,7 @@ app.use(
     origin: process.env.FRONT_URL,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Origin", "Content-Type", "Authorization", "Content-Length", "X-Requested-With", "cache-control"],
+    allowedHeaders: ["Origin", "Content-Type", "Content-Length", "X-Requested-With", "cache-control", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"],
   })
 );
 
