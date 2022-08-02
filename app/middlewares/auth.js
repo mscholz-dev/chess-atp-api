@@ -6,8 +6,6 @@ const auth = async (req, res, next) => {
   try {
     const userCookie = req.cookies.user;
 
-    console.log(`COOKIE => ${userCookie}`);
-
     // no user cookie
     if (!userCookie) return res.json({ state: false });
 
