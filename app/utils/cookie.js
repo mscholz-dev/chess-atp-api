@@ -16,7 +16,7 @@ const cookieSettings = {
   path: "/",
   sameSite: "none",
   secure: true,
-  // httpOnly: true,
+  httpOnly: false,
   // domain: process.env.API_URL,
 };
 
