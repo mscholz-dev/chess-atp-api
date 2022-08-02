@@ -15,8 +15,8 @@ const cookieSettings = {
   expires: 1000 * 60 * 60 * 24 * 7,
   path: "/",
   sameSite: "none",
-  secure: false,
-  httpOnly: false,
+  secure: true,
+  httpOnly: true,
   // domain: process.env.API_URL,
 };
 
