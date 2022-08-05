@@ -7,7 +7,7 @@ const Controller = require("../controllers/authController");
 const AuthController = new Controller();
 
 // auth route
-router.route(`/auth`).get(Middlewares.auth, AuthController.index);
+router.route(`/auth`).post(Middlewares.auth, AuthController.index);
 
 // register route
 router.route(`/register`).post(upload.fields([{ name: "avatar", maxCount: 1 }]), AuthController.register);
