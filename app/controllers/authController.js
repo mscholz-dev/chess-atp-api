@@ -229,6 +229,14 @@ class AuthController {
       throw err;
     }
   }
+
+  async deco(req, res) {
+    try {
+      res.clearCookie("user").json({ state: true });
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = AuthController;

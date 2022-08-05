@@ -7,7 +7,7 @@ const Controller = require("../controllers/authController");
 const AuthController = new Controller();
 
 // auth route
-router.route(`/auth`).post(Middlewares.auth, AuthController.index);
+router.route(`/auth`).get(Middlewares.auth, AuthController.index);
 
 // register route
 router.route(`/register`).post(upload.fields([{ name: "avatar", maxCount: 1 }]), AuthController.register);
@@ -20,5 +20,8 @@ router.route(`/auth/admin`).post(Middlewares.admin, AuthController.index);
 
 // super admin auth route
 router.route(`/auth/superadmin`).post(Middlewares.superAdmin, AuthController.index);
+
+// deco auth route
+router.route(`/auth/deco`).post(AuthController.deco);
 
 module.exports = router;
