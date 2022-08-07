@@ -14,7 +14,7 @@ const cookieSettings = {
   maxAge: 1000 * 60 * 60 * 24 * 7,
   expires: 1000 * 60 * 60 * 24 * 7,
   path: "/",
-  sameSite: "none",
+  sameSite: "lax",
   secure: true,
   httpOnly: true,
   // domain: process.env.FRONT_URL,
