@@ -39,7 +39,13 @@ const io = socketIo(server, {
     origin: process.env.FRONT_URL,
     method: ["GET", "POST", "OPTIONS"],
     credentials: true,
-    allowedHeaders: ["Origin", "Content-Type", "Content-Length", "X-Requested-With", "cache-control"],
+    allowedHeaders: [
+      "Origin",
+      "Content-Type",
+      "Content-Length",
+      "X-Requested-With",
+      "cache-control",
+    ],
   },
 });
 
@@ -85,7 +91,15 @@ app.use(
     origin: process.env.FRONT_URL,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Origin", "Content-Type", "Content-Length", "X-Requested-With", "cache-control", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"],
+    allowedHeaders: [
+      "Origin",
+      "Content-Type",
+      "Content-Length",
+      "X-Requested-With",
+      "cache-control",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Origin",
+    ],
   })
 );
 
@@ -93,8 +107,14 @@ app.use((req, res, next) => {
   res.set("Cache-Control", "no-store");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Origin", process.env.FRONT_URL);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,UPDATE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
   next();
 });
 
@@ -128,7 +148,9 @@ const connectionSocket = (socket) => {
   socket.on("game:castling", (arg) => castlingGameController(socket, arg));
 
   // delete finished room
-  socket.on("game:finishing", (arg) => finishingGameController(socket, io, arg));
+  socket.on("game:finishing", (arg) =>
+    finishingGameController(socket, io, arg)
+  );
 
   // when socket disconnecting
   socket.on("disconnecting", () => disconnectingController(socket));
@@ -140,13 +162,22 @@ const connectionSocket = (socket) => {
   socket.on("game:reconnecting", () => reconnectingGameController(socket));
 
   // socket cancel searching event
-  socket.on("game:cancelSearching", () => cancelSearchingGameController(socket, io));
+  socket.on("game:cancelSearching", () =>
+    cancelSearchingGameController(socket, io)
+  );
 
-  socket.on("game:requestEquality", () => requestEqualityGameController(socket));
+  socket.on("game:requestEquality", () =>
+    requestEqualityGameController(socket)
+  );
 };
 
 // socket.io listener middleware
 io.on("connection", connectionSocket);
+
+// healthcheck
+app.get("/", (req, res) => {
+  return res.status(200).send("OK");
+});
 
 // api routes
 app.use("/api", routes);
