@@ -175,11 +175,6 @@ const connectionSocket = (socket) => {
 // socket.io listener middleware
 io.on("connection", connectionSocket);
 
-// healthcheck
-// app.get("/", (req, res) => {
-//   return res.status(200).send("OK");
-// });
-
 // api routes
 app.use("/api", routes);
 
@@ -290,6 +285,7 @@ app.get("/", (req, res) => {
 
   `);
 });
+
 // server listener
 server.listen(PORT, () => {
   console.log(`
