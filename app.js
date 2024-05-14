@@ -218,6 +218,7 @@ app.get("/", (req, res) => {
         display: flex;
         flex-direction: column;
         height: 100%;
+        gap: 24px;
         justify-content: center;
         left: 0;
         position: absolute;
@@ -227,13 +228,31 @@ app.get("/", (req, res) => {
       }
 
       div {
-        margin: 0 auto 24px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
         padding: 0 12px;
 
-        &:last-child {
-          margin-bottom: 0;
+        &:first-child {
+          svg {
+            height: 48px;
+            margin-right: 6px;
+            min-height: 48px;
+            min-width: 48px;
+            width: 48px;
+          }
+        }
+
+        svg {
+          display: flex;
+          height: 32px;
+          margin-right: 6px;
+          min-height: 32px;
+          min-width: 32px;
+          width: 32px;
         }
       }
+
 
       h1,
       a {
@@ -269,12 +288,15 @@ app.get("/", (req, res) => {
   <body>
     <main>
       <div>
+        <svg viewBox="0 0 1161 1227" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_441_153)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 366.162V0L580.5 425.7L1161 0V1223.52L866.285 1006.2V586.454L580.5 794.839L0 366.162ZM0 1226.49L497.146 857.354L297.692 711.485L0 928.8V1226.49Z" fill="url(#paint0_linear_441_153)"/></g><defs><linearGradient id="paint0_linear_441_153" x1="475" y1="310" x2="719.5" y2="1024.5" gradientUnits="userSpaceOnUse"><stop stop-color="#F29E3E"/><stop offset="0.5" stop-color="#FF3D80"/><stop offset="1" stop-color="#944EF6"/></linearGradient><clipPath id="clip0_441_153"><rect width="1161" height="1226.49" fill="white"/></clipPath></defs></svg>
         <h1>Créé par Morgan Scholz avec ❤️</h1>
       </div>
       <div>
+        <svg viewBox="0 0 1161 1227" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_441_144)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 366.162V0L580.5 425.7L1161 0V1223.52L866.285 1006.2V586.454L580.5 794.839L0 366.162ZM0 1226.49L497.146 857.354L297.692 711.485L0 928.8V1226.49Z" fill="url(#paint0_linear_441_144)"/></g><defs><linearGradient id="paint0_linear_441_144" x1="632.5" y1="207.5" x2="892" y2="933.5" gradientUnits="userSpaceOnUse"><stop stop-color="#02FFFF"/><stop offset="0.48" stop-color="#B025FF"/><stop offset="1" stop-color="#F800F7"/></linearGradient><clipPath id="clip0_441_144"><rect width="1161" height="1226.49" fill="white"/></clipPath></defs></svg>
         <a href="https://mscholz.dev" target="_blank">https://mscholz.dev</a>
       </div>
       <div>
+        <svg viewBox="0 0 1161 1227" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_441_172)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 366.162V0L580.5 425.7L1161 0V1223.52L866.285 1006.2V586.454L580.5 794.839L0 366.162ZM0 1226.49L497.146 857.354L297.692 711.485L0 928.8V1226.49Z" fill="url(#paint0_linear_441_172)"/></g><defs><linearGradient id="paint0_linear_441_172" x1="655.5" y1="300" x2="853" y2="958.5" gradientUnits="userSpaceOnUse"><stop stop-color="#40AC33"/><stop offset="0.48" stop-color="#00CF9E"/><stop offset="1" stop-color="#5DEAED"/></linearGradient><clipPath id="clip0_441_172"><rect width="1161" height="1226.49" fill="white"/></clipPath></defs></svg>
         <a href="mailto:mscholz.dev@gmail.com" target="_blank"
           >mscholz.dev@gmail.com</a
         >
